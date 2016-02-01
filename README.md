@@ -25,14 +25,6 @@ $ git clone https://github.com/paycoguy/stock-market.git your-project
 
 This will install the app components into the `your-project` directory.
 
-### Local Environment Variables
-
-Create a file named `.env` in the root directory. This file should contain:
-
-```
-MONGO_URI=mongodb://localhost:27017/stockmarket
-PORT=8080
-```
 
 ### Starting the App
 
