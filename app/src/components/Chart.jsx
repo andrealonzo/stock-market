@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 'use strict'
 var React = require("react");
+var d3 = require("d3");
 
 module.exports = React.createClass({
      totalJSON:[],
@@ -27,7 +28,7 @@ module.exports = React.createClass({
         return newDataset;
     },
     apiUrl:function(ticker) {
-        return 'https://www.quandl.com/api/v3/datasets/WIKI/' + ticker + '.json?auth_token=QfNWrHRUVDFsc4VnixRr&collapse=monthly&start_date=2000-01-01&end_date=2016-01-15'
+        return '/api/stock/' + ticker
     },
     
      chartStocks:function(data) {
@@ -67,6 +68,8 @@ module.exports = React.createClass({
     },
     loadGraph:function(data,chart) {
      d3.select('#chart svg')
+     .classed("animated", true)
+     .classed("fadeIn", true)
           .datum(data)
         .transition().duration(500)
           .call(chart);

@@ -6,8 +6,11 @@
   "repository": "",
   "author": "Andre Alonzo",
   "dependencies": {
+    "d3": "^3.5.14",
     "dotenv": "^2.0.0",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
   },
   "devDependencies": {
     "jsx-loader": "^0.13.2",

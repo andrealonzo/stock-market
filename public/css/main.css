@@ -18,3 +18,8 @@ svg {
 #chart svg {
   height: 400px;
 }
+
+.row.text-center > div {
+        display: inline-block;
+        float: none;
+    }
