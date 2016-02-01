@@ -1,0 +1,20 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+svg {
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+#chart svg {
+  height: 400px;
+}

@@ -7,16 +7,81 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		 
+    		<link rel="stylesheet" href="/css/main.css">
+    		<link rel="stylesheet" href="/css/nv.d3.css">
 		 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    	<script src="//d3js.org/d3.v3.min.js"></script>
+    	<script src="/js/nv.d3.js"></script>
+    	<script src="/js/main.js"></script>
+	
 </head>
 
 	<body class="appWrapper">
-	    
-	    this is my index
-  <div id = "app">
-	</body>
+	    <div class="container text-center">
+	    	
+	    	<h1>StockChartr</h1>
+	    	
+	<div id="chart">
+	  <svg></svg>
+	</div>
+	
+<form class="form-inline">
+  <div class="form-group">
+    <label for="exampleInputName2">Stock Symbol</label>
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="APPL, GOOG">
+  </div>
+  
+  <button type="submit" class="btn btn-default">Add Stock</button>
+</form>
+<p/>
+<div class="row">
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> APPL
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> MSFT
+		
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove " aria-hidden="true"></span> AMZN
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove " aria-hidden="true"></span> GOOG
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove " aria-hidden="true"></span> CSCO
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove " aria-hidden="true"></span> C
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="well">
+		<span class="glyphicon glyphicon-remove " aria-hidden="true"></span> HD
+		</div>
+	</div>
+	
+	
+	
+</div>
+  </div>
+  
+	
+</div>
 
-		<script type="text/javascript" src="/public/indexBundle.js" charset="utf-8"></script>
+	    	
+	</body>
 
 </html>
