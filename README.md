@@ -2,7 +2,11 @@
 
 ## Overview
 
-This is my implementation of the stock market chart application, which is the 4th basejump on freecodecamp
+This is my implementation of the stock market chart application, which is the 4th basejump on freecodecamp.  
+
+You can view a running version of the app here:
+
+[https://stockchartr.herokuapp.com/](https://stockchartr.herokuapp.com/)
 
 # Quick Start Guide
 
