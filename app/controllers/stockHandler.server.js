@@ -46,12 +46,21 @@ function StockHandler() {
             var ticker1Index = ticker1.ticker.toLowerCase().indexOf(searchTerm.toLowerCase());
             var ticker2Index = ticker2.ticker.toLowerCase().indexOf(searchTerm.toLowerCase());
             
+            var tickerCompany1Index = ticker1.company.toLowerCase().indexOf(searchTerm.toLowerCase());
+            var tickerCompany2Index = ticker2.company.toLowerCase().indexOf(searchTerm.toLowerCase());
+            
 
             if( (ticker1Index == 0) && !(ticker2Index ==0)  ) {
+                return -2;
+            }
+            else if( (tickerCompany1Index == 0) && !(tickerCompany2Index ==0)  ) {
                 return -1;
             }
-            else if( (ticker2Index ==0)  && !(ticker1Index == 0) ){
+            else if( (tickerCompany2Index ==0)  && !(tickerCompany1Index == 0) ){
                 return 1;
+            } 
+            else if( (ticker2Index ==0)  && !(ticker1Index == 0) ){
+                return 2;
             } 
             else{
                 
