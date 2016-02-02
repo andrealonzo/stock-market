@@ -1,7 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
-
+@import url(https://fonts.googleapis.com/css?family=Oleo+Script);
 body{
     font-family: 'Roboto', sans-serif;
+}
+
+h1{
+    
+ font-family: 'Oleo Script', cursive;
+ color:rgb(214, 39, 40);
+
 }
 
 
