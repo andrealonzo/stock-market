@@ -11,6 +11,10 @@ h1{
 
 }
 
+.removeTicker { 
+    cursor: pointer; cursor: hand; 
+    
+}
 
 svg {
   font-family: "Helvetica Neue", Helvetica;

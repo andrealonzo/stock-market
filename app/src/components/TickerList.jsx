@@ -13,7 +13,7 @@ module.exports = React.createClass({
                 return(
             	<div key={ticker} className="col-md-2">
             		<div className="well animated fadeIn">
-            		<span id={index} className="glyphicon glyphicon-remove" aria-hidden="true" onClick={this.handleOnClick}></span>{ticker}
+            		<span id={index} className="glyphicon glyphicon-remove removeTicker" aria-hidden="true" onClick={this.handleOnClick}></span>{ticker}
             		</div>
             	</div>
             	);

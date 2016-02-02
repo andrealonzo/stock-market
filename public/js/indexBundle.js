@@ -29534,7 +29534,7 @@
 	                return(
 	            	React.createElement("div", {key: ticker, className: "col-md-2"}, 
 	            		React.createElement("div", {className: "well animated fadeIn"}, 
-	            		React.createElement("span", {id: index, className: "glyphicon glyphicon-remove", "aria-hidden": "true", onClick: this.handleOnClick}), ticker
+	            		React.createElement("span", {id: index, className: "glyphicon glyphicon-remove removeTicker", "aria-hidden": "true", onClick: this.handleOnClick}), ticker
 	            		)
 	            	)
 	            	);
