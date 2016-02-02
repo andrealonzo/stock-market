@@ -29487,6 +29487,7 @@
 	        //search text
 	         var api ="/api/stock/search/"+request.term;
 	         $.getJSON( api, function( data ){
+	          data = data.splice(0, Math.min(data.length, 5));
 	          response(data.map(function(value){
 	            return value.ticker;
 	          }));        

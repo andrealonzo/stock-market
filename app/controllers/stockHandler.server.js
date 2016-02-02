@@ -40,7 +40,27 @@ function StockHandler() {
            value.company.toLowerCase().indexOf(searchTerm.toLowerCase()) !=-1
            );
         });
-        res.json(filteredTickers);
+        
+        var sortedTickers = filteredTickers.sort(function(ticker1,ticker2){
+            
+            var ticker1Index = ticker1.ticker.toLowerCase().indexOf(searchTerm.toLowerCase());
+            var ticker2Index = ticker2.ticker.toLowerCase().indexOf(searchTerm.toLowerCase());
+            
+
+            if( (ticker1Index == 0) && !(ticker2Index ==0)  ) {
+                return -1;
+            }
+            else if( (ticker2Index ==0)  && !(ticker1Index == 0) ){
+                return 1;
+            } 
+            else{
+                
+             return ticker1.ticker.length - ticker2.ticker.length;
+            }
+        });
+        
+        //sort results by best match
+        res.json(sortedTickers);
     }
     
     this.stockExists = function(req,res){
