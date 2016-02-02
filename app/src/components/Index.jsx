@@ -26,7 +26,8 @@ var App = React.createClass({
               tickers.push(data.ticker);
               this.setState({
                   tickers:tickers,
-                  message:null
+                  message:null,
+                  loading:true
               });
           }
           else{
@@ -39,7 +40,10 @@ var App = React.createClass({
     handleDeleteTicker:function(tickerIndex){
       var tickers = this.state.tickers.slice();
       tickers.splice(tickerIndex,1);
-      this.setState({tickers:tickers});
+      this.setState({
+          tickers:tickers,
+          loading:true
+      });
     },
     handleMessageClose:function(){
       this.setState({
@@ -49,18 +53,25 @@ var App = React.createClass({
     getInitialState:function(){
       return{
          // tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG', 'CSCO', 'C', 'HD']
-          tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG']
+          tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG'],
+          loading:true
       }  
+    },
+    handleChartLoaded:function(){
+      console.log("Chart loaded");  
+      this.setState({
+          loading:false
+      })
     },
     render: function() {
         return (
            
         <div className="container text-center">
             <h1>StockChartr</h1>
-            <Chart tickers = {this.state.tickers}/>
+            <Chart tickers = {this.state.tickers} onChartLoaded={this.handleChartLoaded}/>
             <TickerForm onTickerAdd = {this.handleOnTickerAdd}/>
             {this.state.message?<Message message={this.state.message} onMessageClose={this.handleMessageClose}/>:null}
-           
+            {this.state.loading?<img src="/img/flickr.gif" height="20px"/>:null}
             <p/>
             <TickerList tickers = {this.state.tickers} onDeleteTicker={this.handleDeleteTicker} />
         </div>

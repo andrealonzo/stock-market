@@ -74,6 +74,7 @@ module.exports = React.createClass({
         .transition().duration(500)
           .call(chart);
       nv.utils.windowResize(chart.update);
+      this.props.onChartLoaded();
       return chart;
     },
     componentDidMount:function(){
