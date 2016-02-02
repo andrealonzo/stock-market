@@ -93,6 +93,9 @@ module.exports = React.createClass({
           this.totalJSON= [];
           this.loadChart();
     },
+    shouldComponentUpdate: function(nextProps, nextState) {
+      return this.props.tickers.length != nextProps.tickers.length;
+    },
     render: function() {
         return (
         	<div id="chart">

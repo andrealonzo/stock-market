@@ -1,6 +1,8 @@
 'use strict';
 
-var https = require("https");
+var https = require("https");    
+var path = process.cwd();
+var tickers=require(path + '/app/data/tickers.json');
 
 function StockHandler() {
 
@@ -28,6 +30,34 @@ function StockHandler() {
             response.json(e);
         });
     };
+    
+    
+    this.search = function(req,res){
+        var searchTerm = req.params.ticker;
+        var filteredTickers = tickers.filter(function(value){
+        return(
+           value.ticker.toLowerCase().indexOf(searchTerm.toLowerCase()) !=-1  ||
+           value.company.toLowerCase().indexOf(searchTerm.toLowerCase()) !=-1
+           );
+        });
+        res.json(filteredTickers);
+    }
+    
+    this.stockExists = function(req,res){
+        res.json(getTicker(req.params.ticker, tickers));
+
+    }
+    
+    function getTicker(tickerToFind, tickers) {
+        for(var i = 0; i < tickers.length;i++){
+            var ticker = tickers[i];
+            if(ticker.ticker.toLowerCase() == tickerToFind.toLowerCase()){
+                return ticker;
+            }
+        }
+
+    return {};
+}
 
 
 }
