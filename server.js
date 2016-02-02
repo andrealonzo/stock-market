@@ -13,7 +13,6 @@ require('dotenv').load();
 app.use('/css', express.static(process.cwd() + '/public/css'));
 app.use('/js', express.static(process.cwd() + '/public/js'));
 app.use('/img', express.static(process.cwd() + '/public/img'));
-app.use('/test.html', express.static(process.cwd() + '/public/test.html'));
 		
 routes(app);
 var currentUsers = 0;
