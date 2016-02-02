@@ -23,12 +23,8 @@ var App = React.createClass({
       var apiUrl = '/api/stock/ticker/' + ticker;
       $.getJSON( apiUrl, function( data ) {
           if(data.ticker){
-              tickers.push(data.ticker);
-              this.setState({
-                  tickers:tickers,
-                  message:null,
-                  loading:true
-              });
+              this.addTicker(data.ticker);
+              this.socket.emit('addTicker', data.ticker);
           }
           else{
              this.setState({
@@ -37,13 +33,36 @@ var App = React.createClass({
           }
       }.bind(this));
     },
+    addTicker:function(ticker){
+        
+        var tickers = this.state.tickers.slice();
+        tickers.push(ticker);
+              this.setState({
+                  tickers:tickers,
+                  message:null,
+                  loading:true
+              });
+    },
     handleDeleteTicker:function(tickerIndex){
       var tickers = this.state.tickers.slice();
+      var ticker = tickers[tickerIndex];
       tickers.splice(tickerIndex,1);
+      this.socket.emit('removeTicker', ticker);
       this.setState({
           tickers:tickers,
           loading:true
       });
+    },
+    removeTicker:function(ticker){
+      var tickers = this.state.tickers.slice();
+      var tickerIndex = tickers.indexOf(ticker);
+      if(tickerIndex !=-1){
+          tickers.splice(tickerIndex,1);
+          this.setState({
+              tickers:tickers,
+              loading:true
+          });
+      }
     },
     handleMessageClose:function(){
       this.setState({
@@ -52,7 +71,6 @@ var App = React.createClass({
     },
     getInitialState:function(){
       return{
-         // tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG', 'CSCO', 'C', 'HD']
           tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG'],
           loading:true
       }  
@@ -62,6 +80,18 @@ var App = React.createClass({
       this.setState({
           loading:false
       })
+    },
+    componentDidMount:function(){
+		this.socket = io();
+		this.socket.on('addTicker', function (ticker) {
+		    console.log('received addticker', ticker);
+		    this.addTicker(ticker);
+		}.bind(this));
+		
+		this.socket.on('removeTicker', function (ticker) {
+		    console.log('received removeTicker', ticker);
+		    this.removeTicker(ticker);
+		}.bind(this));
     },
     render: function() {
         return (

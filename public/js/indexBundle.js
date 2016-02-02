@@ -69,12 +69,8 @@
 	      var apiUrl = '/api/stock/ticker/' + ticker;
 	      $.getJSON( apiUrl, function( data ) {
 	          if(data.ticker){
-	              tickers.push(data.ticker);
-	              this.setState({
-	                  tickers:tickers,
-	                  message:null,
-	                  loading:true
-	              });
+	              this.addTicker(data.ticker);
+	              this.socket.emit('addTicker', data.ticker);
 	          }
 	          else{
 	             this.setState({
@@ -83,13 +79,36 @@
 	          }
 	      }.bind(this));
 	    },
+	    addTicker:function(ticker){
+	        
+	        var tickers = this.state.tickers.slice();
+	        tickers.push(ticker);
+	              this.setState({
+	                  tickers:tickers,
+	                  message:null,
+	                  loading:true
+	              });
+	    },
 	    handleDeleteTicker:function(tickerIndex){
 	      var tickers = this.state.tickers.slice();
+	      var ticker = tickers[tickerIndex];
 	      tickers.splice(tickerIndex,1);
+	      this.socket.emit('removeTicker', ticker);
 	      this.setState({
 	          tickers:tickers,
 	          loading:true
 	      });
+	    },
+	    removeTicker:function(ticker){
+	      var tickers = this.state.tickers.slice();
+	      var tickerIndex = tickers.indexOf(ticker);
+	      if(tickerIndex !=-1){
+	          tickers.splice(tickerIndex,1);
+	          this.setState({
+	              tickers:tickers,
+	              loading:true
+	          });
+	      }
 	    },
 	    handleMessageClose:function(){
 	      this.setState({
@@ -98,7 +117,6 @@
 	    },
 	    getInitialState:function(){
 	      return{
-	         // tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG', 'CSCO', 'C', 'HD']
 	          tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG'],
 	          loading:true
 	      }  
@@ -108,6 +126,18 @@
 	      this.setState({
 	          loading:false
 	      })
+	    },
+	    componentDidMount:function(){
+			this.socket = io();
+			this.socket.on('addTicker', function (ticker) {
+			    console.log('received addticker', ticker);
+			    this.addTicker(ticker);
+			}.bind(this));
+			
+			this.socket.on('removeTicker', function (ticker) {
+			    console.log('received removeTicker', ticker);
+			    this.removeTicker(ticker);
+			}.bind(this));
 	    },
 	    render: function() {
 	        return (
@@ -29439,7 +29469,6 @@
 
 	        //search text
 	         var api ="/api/stock/search/"+request.term;
-	       //call wikipedia search  api
 	         $.getJSON( api, function( data ){
 	          response(data.map(function(value){
 	            return value.ticker;

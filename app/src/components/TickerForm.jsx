@@ -28,7 +28,6 @@ module.exports = React.createClass({
 
         //search text
          var api ="/api/stock/search/"+request.term;
-       //call wikipedia search  api
          $.getJSON( api, function( data ){
           response(data.map(function(value){
             return value.ticker;
