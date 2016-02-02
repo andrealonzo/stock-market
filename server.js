@@ -16,8 +16,13 @@ app.use('/img', express.static(process.cwd() + '/public/img'));
 app.use('/test.html', express.static(process.cwd() + '/public/test.html'));
 		
 routes(app);
-
+var currentUsers = 0;
 io.on('connection', function(socket){
+  currentUsers++;
+  console.log('User connected');
+  console.log('Number of users online', currentUsers);
+  
+  io.emit('numUsers', currentUsers);
   socket.on('addTicker', function(ticker){
       
     socket.broadcast.emit('addTicker', ticker);
@@ -27,6 +32,13 @@ io.on('connection', function(socket){
   socket.on('removeTicker', function(ticker){
     socket.broadcast.emit('removeTicker', ticker);
     
+    
+  });
+  socket.on('disconnect', function(){
+      currentUsers--;
+      console.log('User disconnected');
+      console.log('Number of users online', currentUsers);
+      io.emit('numUsers', currentUsers);
   });
 });
 		

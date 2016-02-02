@@ -10,12 +10,18 @@ var $ = require('jquery');
 
 var App = React.createClass({
     handleOnTickerAdd:function(ticker){
-      var tickers = this.state.tickers.slice();
+        this.addTicker(ticker,true);
+    },
+    addTicker:function(ticker,addedByCurrentUser){
+        var tickers = this.state.tickers.slice();
       //check to see if ticker is already in list
       if(tickers.indexOf(ticker.toUpperCase())!=-1){
-          this.setState({
-              message:ticker + " is already in the list"
-          });
+           //only show this message if current user added the ticker
+          if(addedByCurrentUser){
+              this.setState({
+                  message:ticker + " is already in the list"
+              });
+          }
         return;
       }
       
@@ -23,28 +29,35 @@ var App = React.createClass({
       var apiUrl = '/api/stock/ticker/' + ticker;
       $.getJSON( apiUrl, function( data ) {
           if(data.ticker){
-              this.addTicker(data.ticker);
-              this.socket.emit('addTicker', data.ticker);
-          }
-          else{
-             this.setState({
-              message:ticker + " doesn't exist"
-          });
-          }
-      }.bind(this));
-    },
-    addTicker:function(ticker){
-        
-        var tickers = this.state.tickers.slice();
-        tickers.push(ticker);
+              var tickers = this.state.tickers.slice();
+              tickers.push(data.ticker);
               this.setState({
                   tickers:tickers,
                   message:null,
                   loading:true
               });
+              //send out socket signal if ticker was added by current user
+              if(addedByCurrentUser){
+                 this.socket.emit('addTicker', data.ticker);
+              }
+          }
+          else{
+              //only show this message if current user added the ticker
+               if(addedByCurrentUser){
+                     this.setState({
+                      message:ticker + " doesn't exist"
+                  });
+               }
+          }
+      }.bind(this));
+        
     },
     handleDeleteTicker:function(tickerIndex){
-      var tickers = this.state.tickers.slice();
+      
+      this.removeTicker(tickerIndex, true);
+    },
+    removeTicker:function(tickerIndex, removedByCurrentUser){
+     var tickers = this.state.tickers.slice();
       var ticker = tickers[tickerIndex];
       tickers.splice(tickerIndex,1);
       this.socket.emit('removeTicker', ticker);
@@ -52,17 +65,7 @@ var App = React.createClass({
           tickers:tickers,
           loading:true
       });
-    },
-    removeTicker:function(ticker){
-      var tickers = this.state.tickers.slice();
-      var tickerIndex = tickers.indexOf(ticker);
-      if(tickerIndex !=-1){
-          tickers.splice(tickerIndex,1);
-          this.setState({
-              tickers:tickers,
-              loading:true
-          });
-      }
+     
     },
     handleMessageClose:function(){
       this.setState({
@@ -72,7 +75,8 @@ var App = React.createClass({
     getInitialState:function(){
       return{
           tickers: ["AAPL", "MSFT", 'AMZN', 'GOOG'],
-          loading:true
+          loading:true,
+          numUsers:0
       }  
     },
     handleChartLoaded:function(){
@@ -90,14 +94,27 @@ var App = React.createClass({
 		
 		this.socket.on('removeTicker', function (ticker) {
 		    console.log('received removeTicker', ticker);
-		    this.removeTicker(ticker);
+		    var tickers = this.state.tickers.slice();
+            var tickerIndex = tickers.indexOf(ticker);
+            console.log(tickers, tickerIndex);
+            if(tickerIndex !=-1){
+                this.removeTicker(tickerIndex);
+            }
 		}.bind(this));
+		
+		this.socket.on('numUsers', function(numUsers){
+		    this.setState({
+		        numUsers:numUsers
+		    })
+		}.bind(this));
+		
     },
     render: function() {
         return (
            
         <div className="container text-center">
             <h1>StockChartr</h1>
+            {this.state.numUsers} speculator{this.state.numUsers!=1?'s':null} currently online
             <Chart tickers = {this.state.tickers} onChartLoaded={this.handleChartLoaded}/>
             <TickerForm onTickerAdd = {this.handleOnTickerAdd}/>
             {this.state.message?<Message message={this.state.message} onMessageClose={this.handleMessageClose}/>:null}
